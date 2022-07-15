@@ -16,6 +16,7 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { HomeModule } from './home/home.module';
 import { LoginComponent } from './login/login.component';
 import { CreateComponent } from './create/create.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { CreateComponent } from './create/create.component';
     ReactiveFormsModule,
     RouterModule,
     AppRoutingModule,
-    HomeModule
+    HomeModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -16,28 +16,16 @@
         <span class="span-100"></span>
       </div>
       
-      <!-- <div class="container shape-container d-flex align-items-center py-lg">
+      <div class="container shape-container d-flex align-items-center py-lg">
         <div class="col px-0">
           <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 text-center">
-              <img src="./assets/img/brand/argon-white.png" style="width: 200px;" class="img-fluid">
+              <h1 class="text-white">Welcome <b>{{username}}</b></h1>
               <p class="lead text-white">A simple page to create ReadMe for GitHub Repositories.</p>
-              <div class="btn-wrapper mt-5">
-                <a [routerLink]="['/create']" class="btn btn-lg btn-white btn-icon mb-3 mb-sm-0">
-                  <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
-                  <span class="btn-inner--text">Proceed to generate</span>
-                </a>
-                <a href="https://github.com/jayshah23/GitHub-Repository-ReadMe-Generator"
-                  class="btn btn-lg btn-github btn-icon mb-3 mb-sm-0" target="_blank">
-                  <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
-                  <span class="btn-inner--text">
-                    <span class="text-warning">Star us</span> on Github</span>
-                </a>
-              </div>
             </div>
           </div>
         </div>
-      </div> -->
+      </div>
 
       <!-- SVG separator -->
       <div class="separator separator-bottom separator-skew zindex-100">
@@ -50,52 +38,87 @@
 
     <section class="section pb-0 section-components">
       <div class="row">
+
+        <!-- Left Spacing -->
         <div class="col-lg-1"></div>
+
+        <!-- Input Block -->
         <div class="col-lg-5">
           <form [formGroup]="inputForm">
+
+            <!-- Title -->
             <div class="container mb-5">
               <h3 class="h4 font-weight-bold mb-4">Title of Repository</h3>
               <div class="form-group">
-                <input formControlName="title" [(ngModel)]="data.title" type="text" id="input-title"
-                  class="form-control black-color box-border" placeholder="Title">
+                <input formControlName="title" type="text" id="input-title"
+                  class="form-control black-color box-border" placeholder="Paste your Repository name">
               </div>
             </div>
+
+            <!-- Description -->
             <div class="container mb-5">
               <h3 class="h4 font-weight-bold mb-4">Description</h3>
               <div class="form-group">
-                <textarea formControlName="description" [(ngModel)]="data.description" id="input-description" rows="5"
+                <textarea formControlName="description" id="input-description" rows="5"
                   class="form-control black-color no-resize box-border" placeholder="Description"></textarea>
               </div>
             </div>
+
+            <!-- Demo -->
             <div class="container mb-5">
               <h3 class="h4 font-weight-bold mb-4">Demo</h3>
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input formControlName="demoText" [(ngModel)]="data.demoText" type="text" id="input-demoText"
+                    <input formControlName="demoText" type="text" id="input-demoText"
                       class="form-control black-color box-border" placeholder="Text">
                   </div>
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
-                    <input formControlName="demoHyperLink" [(ngModel)]="data.demoHyperLink" type="text" id="input-demoHyperLink"
+                    <input formControlName="demoHyperLink" type="text" id="input-demoHyperLink"
                       class="form-control black-color box-border" placeholder="Hyperlink">
                   </div>
                 </div>
               </div>
               <div class="form-group">
-                <input formControlName="demoLink" [(ngModel)]="data.demoLink" type="text" id="input-demoLink"
+                <input formControlName="demoLink" type="text" id="input-demoLink"
                   class="form-control black-color no-resize box-border" placeholder="Link">
               </div>
             </div>
+
+            <!-- Features -->
+            <div class="container mb-5">
+              <h3 class="h4 font-weight-bold mb-4">Features</h3>
+              <div class="form-group">
+                <textarea formControlName="featuresDescription" id="input-features-description" rows="5"
+                  class="form-control black-color no-resize box-border mb-4" placeholder="Features description"></textarea>
+                <div formArrayName="features">
+                  <section *ngFor="let feature of inputForm.get('features')['controls']; index as i">
+                    <div class="input-group mb-4">
+                      <input formControlName="{{i}}" type="text" id="input-demoLink"
+                        class="form-control black-color box-border" placeholder="Add feature">
+                      <button class="input-group-text black-color box-border" (click)="removeFeature(i)"><i class="fa fa-trash"></i></button>
+                    </div>
+                  </section>
+                  <div style="margin-top: 20px; display: flex; justify-content: center;">
+                    <button class="btn btn-1 btn-outline-primary" (click)="addFeature()">Add Feature</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Generate -->
             <div style="margin-top: 20px; display: flex; justify-content: center;">
               <button class="btn btn-1 btn-outline-primary" (click)="save()">Generate Markdown</button>
             </div>
           </form>
         </div>
 
+        <!-- Vertical Line -->
         <div style="border-right: 1px solid #000"></div>
 
+        <!-- Output Block -->
         <div class="col-lg-5">
           <form [formGroup]="outputForm">
             <div class="container mb-5">
@@ -116,7 +139,7 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <input formControlName="title" [(ngModel)]="data.title" type="text" id="input-title"
+                <input formControlName="title" type="text" id="input-title"
                   class="form-control input-color" placeholder="Title">
               </div>
             </div>
@@ -127,7 +150,7 @@
           <div class="row">
             <div class="col-lg-6">
               <div class="form-group">
-                <textarea formControlName="description" [(ngModel)]="data.description" id="input-description" rows="5"
+                <textarea formControlName="description" id="input-description" rows="5"
                   class="form-control input-color bigtext" placeholder="Description"></textarea>
               </div>
             </div>

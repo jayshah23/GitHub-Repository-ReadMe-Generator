@@ -20,17 +20,27 @@
           <div class="row align-items-center justify-content-center">
             <div class="col-lg-6 text-center">
               <img src="./assets/img/brand/argon-white.png" style="width: 200px;" class="img-fluid">
-              <p class="lead text-white">A simple page to create ReadMe for GitHub Repositories.</p>
-              <div class="btn-wrapper mt-5">
-                <a [routerLink]="['/create']" class="btn btn-lg btn-white btn-icon mb-3 mb-sm-0">
-                  <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
-                  <span class="btn-inner--text">Proceed to generate</span>
-                </a>
-                <a href="https://github.com/jayshah23/GitHub-Repository-ReadMe-Generator" class="btn btn-lg btn-github btn-icon mb-3 mb-sm-0" target="_blank">
-                  <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
-                  <span class="btn-inner--text">
-                    <span class="text-warning">Star us</span> on Github</span>
-                </a>
+              <p class="lead text-white">A simple page to create <b>ReadMe</b> for<br><b>GitHub Repositories</b>.</p>
+              <div class="form-group" [ngClass]="{'has-success' : github1, 'has-danger' : !github1}">
+                <input type="text" id="username" name="username" placeholder="Username" [(ngModel)]="username" (input)="gitUser()" class="form-control" [ngClass]="{'is-valid' : github1, 'is-invalid' : !github1}">
+              </div>
+              <!-- <div class="form-group has-success">
+                <input type="text" placeholder="Success" class="form-control is-valid" />
+              </div> -->
+              <div class="row">
+                <div class="col-sm-6">
+                  <button [routerLink]="['/create']" class="btn btn-lg btn-white btn-icon mb-3 mb-sm-0 not-allowed" [disabled]=!github1>
+                    <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
+                    <span class="btn-inner--text">Proceed to generate</span>
+                  </button>
+                </div>
+                <div class="col-sm-6">
+                  <a href="https://github.com/jayshah23/GitHub-Repository-ReadMe-Generator" class="btn btn-lg btn-github btn-icon mb-3 mb-sm-0" target="_blank">
+                    <span class="btn-inner--icon"><i class="fa fa-github"></i></span>
+                    <span class="btn-inner--text">
+                      <span class="text-warning">Star us</span> on Github</span>
+                  </a>
+                </div>
               </div>
             </div>
           </div>

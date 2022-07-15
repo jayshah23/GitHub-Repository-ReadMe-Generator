@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DataModel } from '../data.model';
+import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
+import { SharedService } from '../services/shared.service';
 
 @Component({
   selector: 'app-create',
@@ -9,20 +9,25 @@ import { DataModel } from '../data.model';
 })
 export class CreateComponent implements OnInit {
 
+  username: string = "";
   inputForm: FormGroup;
   outputForm: FormGroup;
-  data: DataModel = new DataModel();
 
-  constructor() { }
+  constructor(private shared: SharedService) { }
 
   ngOnInit() {
+    this.username = this.shared.getUsername();
+
     this.inputForm = new FormGroup({
-      title: new FormControl("", [Validators.required]),
-      description: new FormControl("", [Validators.required]),
-      demoText: new FormControl("", [Validators.required]),
-      demoHyperLink: new FormControl("", [Validators.required]),
-      demoLink: new FormControl("", [Validators.required])
+      title: new FormControl(""),
+      description: new FormControl(""),
+      demoText: new FormControl(""),
+      demoHyperLink: new FormControl(""),
+      demoLink: new FormControl(""),
+      featuresDescription: new FormControl(""),
+      features: new FormArray([])
     })
+
     this.outputForm = new FormGroup({
       output: new FormControl("")
     })
@@ -31,16 +36,13 @@ export class CreateComponent implements OnInit {
   save() {
     var title = this.title(),
     description = this.description(),
-    demo = this.demo();
-//     demo = this.demoText() + this.demoHyperLink() + this.demoLink();
-//     demo = demo == "" ? "" : `## 🚀 Demo
-// ${demo}`
+    demo = this.demo(),
+    features = this.features();
 
-    console.log(this.data);
-    console.log(title, description, demo);
+    console.log("Title: "+title, "dsc: "+description, "demo: "+demo, "ft: "+features);
 
     // this.outputForm.get('output').setValue
-    this.outputForm.controls['output'].setValue(title + description + demo);
+    this.outputForm.controls['output'].setValue(title + description + demo + features);
   }
 
   // https://stackoverflow.com/questions/32049527/using-typescript-to-create-html-using-template
@@ -54,36 +56,53 @@ export class CreateComponent implements OnInit {
     return description == undefined || description.trim() == "" ? "" : `${description.trim()}\n\n`
   }
 
-  // demoText(): string {
-  //   var demoText = this.inputForm.get('demoText').value;
-  //   return demoText == undefined || demoText.trim() == "" ? "" : `${demoText.trim()} `
-  // }
-
-  // demoHyperLink(): string {
-  //   var demoHyperLink = this.inputForm.get('demoHyperLink').value;
-  //   return demoHyperLink == undefined || demoHyperLink.trim() == "" ? "" : `[${demoHyperLink.trim()}]`
-  // }
-
-  // demoLink(): string {
-  //   var demoLink = this.inputForm.get('demoLink').value;
-  //   return demoLink == undefined || demoLink.trim() == "" ? "" : `(${demoLink.trim()})`
-  // }
-
   demo() {
     var demoText = this.inputForm.get('demoText').value,
     demoHyperLink = this.inputForm.get('demoHyperLink').value,
     demoLink = this.inputForm.get('demoLink').value,
-    demo = "## 🚀 Demo\n";
+    demo = "",
+    demoIntro = "## 🚀 Demo\n";
 
-    demoText = demoText == undefined || demoText.trim() == "" ? "" : demoText.trim();
-    demo = demoText == "" ? "" : demo + demoText + " ";
+    if(demoLink == undefined || demoLink.trim() == "") demoLink = "", demoHyperLink = "";
+    else {
+      if(demoHyperLink == undefined || demoHyperLink.trim() == "") demoHyperLink = demoLink;
+      else demoHyperLink = demoHyperLink.trim();
+      demo = `[${demoHyperLink.trim()}]` + `(${demoLink.trim()})`;
+    }
 
-    demoLink = demoLink == undefined || demoLink.trim() == "" ? "" : demoLink.trim();
-    demoHyperLink = demoHyperLink == undefined || demoHyperLink.trim() == "" ? demoLink : demoHyperLink.trim();
-
-    return demoLink != "" ? demo + `[${demoHyperLink.trim()}]` + `(${demoLink.trim()})` : demo;
+    if(demoText == undefined || demoText.trim() == "") {
+      demoText = "";
+      if(demoHyperLink == "" && demoLink == "") return "";
+    } else {
+      demoText = demoText.trim();
+      demo = demoText + " " + demo;
+    }
+    
+    return demoIntro + demo + "\n\n";
   }
 
+  features() {
+    var featuresDescription = this.inputForm.get('featuresDescription').value,
+    features = "",
+    featureIntro = " ## 🧐 Features\n";
+
+    (<FormArray>this.inputForm.get('features')).controls.forEach((feature, index) => {
+      // console.log(index, feature.value);
+      if(feature.value.trim() != "") {
+        features = features + "- " + feature.value.trim() + "\n";
+      }
+    })
+
+    if(featuresDescription == undefined || featuresDescription.trim() == "") {
+      featuresDescription = "";
+      if(features == "") return "";
+    } else {
+      featuresDescription = featuresDescription.trim();
+      features = featuresDescription + "\n" + features;
+    }
+
+    return featureIntro + features;
+  }
 
 
   // urlExists(url) {
@@ -91,5 +110,15 @@ export class CreateComponent implements OnInit {
   //     .then(res => true)
   //     .catch(err => false)
   // }
+
+  
+  // Features
+  addFeature() {
+    (<FormArray>this.inputForm.get('features')).push(new FormControl(""));
+  }
+
+  removeFeature(i) {
+    (<FormArray>this.inputForm.get('features')).removeAt(i);
+  }
 
 }
