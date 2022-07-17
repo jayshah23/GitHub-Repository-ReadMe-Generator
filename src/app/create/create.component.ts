@@ -25,7 +25,9 @@ export class CreateComponent implements OnInit {
       demoHyperLink: new FormControl(""),
       demoLink: new FormControl(""),
       featuresDescription: new FormControl(""),
-      features: new FormArray([])
+      features: new FormArray([
+        new FormControl("")
+      ])
     })
 
     this.outputForm = new FormGroup({
@@ -103,13 +105,6 @@ export class CreateComponent implements OnInit {
 
     return featureIntro + features;
   }
-
-
-  // urlExists(url) {
-  //   return fetch(url, {mode: "no-cors"})
-  //     .then(res => true)
-  //     .catch(err => false)
-  // }
 
   
   // Features

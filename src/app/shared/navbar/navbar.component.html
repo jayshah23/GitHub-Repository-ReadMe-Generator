@@ -1,7 +1,8 @@
 <nav id="navbar-main" class="navbar navbar-main navbar-expand-lg navbar-transparent navbar-light headroom headroom--top headroom--pinned">
   <div class="container">
     <a class="navbar-brand mr-lg-5" [routerLink]="['/home']">
-      <img src="./assets/img/brand/argon-white.png">
+      <!-- <img src="./assets/img/brand/Readme generator.png"> -->
+      <span>Home</span>
     </a>
     <button class="navbar-toggler" type="button" (click)="isCollapsed = !isCollapsed"
           [attr.aria-expanded]="!isCollapsed" aria-controls="navbar_global">
@@ -98,6 +99,12 @@
           <a class="nav-link nav-link-icon" href="https://github.com/jayshah23/" target="_blank" data-toggle="tooltip" title="Follow us on Github">
             <i class="fa fa-github"></i>
             <span class="nav-link-inner--text d-lg-none">Github</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link nav-link-icon" href="https://www.linkedin.com/in/jay-shah-085859170/" target="_blank" data-toggle="tooltip" title="Follow us on LinkedIn">
+            <i class="fa fa-linkedin"></i>
+            <span class="nav-link-inner--text d-lg-none">LinkedIn</span>
           </a>
         </li>
       </ul>

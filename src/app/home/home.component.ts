@@ -10,17 +10,9 @@ import { SharedService } from '../services/shared.service';
 })
 
 export class HomeComponent implements OnInit {
-    model = {
-        left: true,
-        middle: false,
-        right: false
-    };
-
-    focus;
-    focus1;
 
     username: string = "";
-    github1: boolean = false;
+    github1: boolean = true;
     // github2: boolean;
 
     constructor(private http: HttpClient,
@@ -29,22 +21,22 @@ export class HomeComponent implements OnInit {
     ngOnInit() { }
 
     gitUser() {
-        this.username = this.username.trim();
-        if(this.username != "") {
-            this.API().subscribe(data => {
-                console.log("Data: ",data);
-                this.github1 = true;
+    //     this.username = this.username.trim();
+    //     if(this.username != "") {
+    //         this.API().subscribe(data => {
+    //             console.log("Data: ",data);
+    //             this.github1 = true;
                 this.shared.setUsername(this.username);
-            }, error => {
-                console.log("Error: ",error);
-                this.github1 = false;
-            });
-        }
+    //         }, error => {
+    //             console.log("Error: ",error);
+    //             this.github1 = false;
+    //         });
+    //     }
     }
 
-    API(): Observable<any> {
-        return this.http.get("https://api.github.com/users/" + this.username, {
-            headers: { "Content-Type": "application/json; charset = UTF-8" }
-        });
-    }
+    // API(): Observable<any> {
+    //     return this.http.get("https://api.github.com/users/" + this.username, {
+    //         headers: { "Content-Type": "application/json; charset = UTF-8" }
+    //     });
+    // }
 }
