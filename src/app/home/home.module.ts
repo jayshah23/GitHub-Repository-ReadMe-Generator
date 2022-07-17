@@ -7,15 +7,13 @@ import { RouterModule } from '@angular/router';
 
 import { HomeComponent } from './home.component';
 
-import { SectionsModule } from '../sections/sections.module';
-
 @NgModule({
     imports: [
         CommonModule,
         BrowserModule,
         FormsModule,
         RouterModule,
-        SectionsModule, NgbModule
+        NgbModule
     ],
     declarations: [ HomeComponent ],
     exports:[ HomeComponent ],
