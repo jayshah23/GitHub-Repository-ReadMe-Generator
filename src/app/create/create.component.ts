@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { SharedService } from '../services/shared.service';
+import { Clipboard } from '@angular/cdk/clipboard';
 
 @Component({
   selector: 'app-create',
@@ -13,7 +14,8 @@ export class CreateComponent implements OnInit {
   inputForm: FormGroup;
   outputForm: FormGroup;
 
-  constructor(private shared: SharedService) { }
+  constructor(private shared: SharedService,
+    private clipboard: Clipboard) { }
 
   ngOnInit() {
     this.username = this.shared.getUsername();
@@ -153,6 +155,21 @@ export class CreateComponent implements OnInit {
 
   removeStep(i) {
     (<FormArray>this.inputForm.get('setup')).removeAt(i);
+  }
+
+  copy() {
+    const pending = this.clipboard.beginCopy(this.outputForm.controls['output'].value);
+    let remainingAttempts = 3;
+    const attempt = () => {
+      const result = pending.copy();
+      if (!result && --remainingAttempts) {
+        setTimeout(attempt);
+      } else {
+        // Remember to destroy when you're done!
+        pending.destroy();
+      }
+    };
+    attempt();
   }
 
 }
