@@ -27,6 +27,12 @@ export class CreateComponent implements OnInit {
       featuresDescription: new FormControl(""),
       features: new FormArray([
         new FormControl("")
+      ]),
+      setup: new FormArray([
+        new FormGroup({
+          description: new FormControl(""),
+          code: new FormControl("")
+        })
       ])
     })
 
@@ -39,12 +45,13 @@ export class CreateComponent implements OnInit {
     var title = this.title(),
     description = this.description(),
     demo = this.demo(),
-    features = this.features();
+    features = this.features(),
+    setup = this.setup();
 
-    console.log("Title: "+title, "dsc: "+description, "demo: "+demo, "ft: "+features);
+    // console.log("Title: "+title, "dsc: "+description, "demo: "+demo, "ft: "+features, "steps: "+ setup);
 
     // this.outputForm.get('output').setValue
-    this.outputForm.controls['output'].setValue(title + description + demo + features);
+    this.outputForm.controls['output'].setValue(title + description + demo + features + setup);
   }
 
   // https://stackoverflow.com/questions/32049527/using-typescript-to-create-html-using-template
@@ -106,6 +113,27 @@ export class CreateComponent implements OnInit {
     return featureIntro + features;
   }
 
+  setup() {
+    var setup = "",
+    setupIntro = " ## 🛠️ Installation Steps\n\n",
+    setupOutro = "🌟 You are all set!";
+
+    (<FormArray>this.inputForm.get('setup')).controls.forEach((steps, index: number) => {
+      // console.log(index, feature.value);
+      if(steps.value.description.trim() != "") {
+        var i = parseInt(index.toString())+1;
+        setup = setup + i + ". " + steps.value.description.trim() + "\n\n";
+      }
+      if(steps.value.code.trim() != "") {
+        setup = setup + "```bash\n" + steps.value.code.trim() + "\n```\n\n";
+      }
+    })
+
+    if(setup == "") return "";
+
+    return setupIntro + setup + setupOutro;
+  }
+
   
   // Features
   addFeature() {
@@ -114,6 +142,17 @@ export class CreateComponent implements OnInit {
 
   removeFeature(i) {
     (<FormArray>this.inputForm.get('features')).removeAt(i);
+  }
+
+  addStep() {
+    (<FormArray>this.inputForm.get('setup')).push(new FormGroup({
+      description: new FormControl(""),
+      code: new FormControl("")
+    }))
+  }
+
+  removeStep(i) {
+    (<FormArray>this.inputForm.get('setup')).removeAt(i);
   }
 
 }

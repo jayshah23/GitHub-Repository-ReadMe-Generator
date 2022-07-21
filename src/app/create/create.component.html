@@ -108,6 +108,29 @@
               </div>
             </div>
 
+            <!-- Setup -->
+            <div class="container mb-5">
+              <h3 class="h4 font-weight-bold mb-4">Installation steps</h3>
+              <div class="form-group">
+                <div formArrayName="setup">
+                  <section *ngFor="let feature of inputForm.get('setup')['controls']; index as i" [formGroupName]="i">
+                    <div class="mb-4">
+                      <div class="input-group">
+                        <input formControlName="description" type="text" id="input-setupDesc{{i}}"
+                          class="form-control black-color box-border" placeholder="Add Description">
+                        <button class="input-group-text black-color box-border" (click)="removeStep(i)"><i class="fa fa-trash"></i></button>
+                      </div>
+                      <input formControlName="code" type="text" id="input-setupCode{{i}}"
+                        class="form-control black-color box-border" placeholder="Add Code">
+                    </div>
+                  </section>
+                  <div style="margin-top: 20px; display: flex; justify-content: center;">
+                    <button class="btn btn-1 btn-outline-primary" (click)="addStep()">Add Step</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Generate -->
             <div style="margin-top: 20px; display: flex; justify-content: center;">
               <button class="btn btn-1 btn-outline-primary" (click)="save()">Generate Markdown</button>
