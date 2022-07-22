@@ -35,6 +35,17 @@ export class CreateComponent implements OnInit {
           description: new FormControl(""),
           code: new FormControl("")
         })
+      ]),
+      contributor: new FormArray([
+        new FormGroup({
+          name: new FormControl(""),
+          connect1: new FormControl("Github"),
+          connect1Link: new FormControl(""),
+          connect2: new FormControl("Linkdin"),
+          connect2Link: new FormControl(""),
+          connect3: new FormControl("Other"),
+          connect3Link: new FormControl("")
+        })
       ])
     })
 
@@ -48,12 +59,15 @@ export class CreateComponent implements OnInit {
     description = this.description(),
     demo = this.demo(),
     features = this.features(),
-    setup = this.setup();
+    setup = this.setup(),
+    contributor = this.contributor();
 
-    // console.log("Title: "+title, "dsc: "+description, "demo: "+demo, "ft: "+features, "steps: "+ setup);
+    // console.log("Title: "+title, "dsc: "+description, "demo: "+demo, "ft: "+features, "steps: "+setup, "contributor: "+contributor);
 
     // this.outputForm.get('output').setValue
-    this.outputForm.controls['output'].setValue(title + description + demo + features + setup);
+    this.outputForm.controls['output'].setValue(title + description + demo + features + setup + contributor);
+
+    document.getElementById("toTop").scrollIntoView({behavior: 'smooth'});
   }
 
   // https://stackoverflow.com/questions/32049527/using-typescript-to-create-html-using-template
@@ -95,7 +109,7 @@ export class CreateComponent implements OnInit {
   features() {
     var featuresDescription = this.inputForm.get('featuresDescription').value,
     features = "",
-    featureIntro = " ## 🧐 Features\n";
+    featureIntro = "## 🧐 Features\n";
 
     (<FormArray>this.inputForm.get('features')).controls.forEach((feature, index) => {
       // console.log(index, feature.value);
@@ -112,28 +126,54 @@ export class CreateComponent implements OnInit {
       features = featuresDescription + "\n" + features;
     }
 
-    return featureIntro + features;
+    return featureIntro + features + "\n";
   }
 
   setup() {
     var setup = "",
-    setupIntro = " ## 🛠️ Installation Steps\n\n",
+    setupIntro = "## 🛠️ Installation Steps\n",
     setupOutro = "🌟 You are all set!";
 
     (<FormArray>this.inputForm.get('setup')).controls.forEach((steps, index: number) => {
       // console.log(index, feature.value);
       if(steps.value.description.trim() != "") {
         var i = parseInt(index.toString())+1;
-        setup = setup + i + ". " + steps.value.description.trim() + "\n\n";
+        setup = setup + i + ". " + steps.value.description.trim() + "\n";
       }
       if(steps.value.code.trim() != "") {
-        setup = setup + "```bash\n" + steps.value.code.trim() + "\n```\n\n";
+        setup = setup + "```bash\n" + steps.value.code.trim() + "\n```\n";
       }
     })
 
     if(setup == "") return "";
 
-    return setupIntro + setup + setupOutro;
+    return setupIntro + setup + setupOutro + "\n\n";
+  }
+
+  contributor() {
+    var contributors = "",
+    contributorIntro = "## 🚧 Contributors\n",
+    contributorOutro = "Thank you so much for your help.";
+
+    (<FormArray>this.inputForm.get('contributor')).controls.forEach((contributor , index: number) => {
+      if(contributor.value.name.trim() != "") {
+        var connect = "";
+        if(contributor.value.connect1.trim() != "" && contributor.value.connect1Link.trim() != "") {
+          connect = connect + `[${contributor.value.connect1.trim()}](${contributor.value.connect1Link.trim()}) `;
+        }
+        if(contributor.value.connect2.trim() != "" && contributor.value.connect2Link.trim() != "") {
+          connect = connect + `[${contributor.value.connect2.trim()}](${contributor.value.connect2Link.trim()}) `;
+        }
+        if(contributor.value.connect3.trim() != "" && contributor.value.connect3Link.trim() != "") {
+          connect = connect + `[${contributor.value.connect3.trim()}](${contributor.value.connect3Link.trim()})`;
+        }
+        contributors = contributors + "- " + contributor.value.name.trim() + ": " + connect + "\n";
+      }
+    })
+
+    if(contributors == "") return "";
+
+    return contributorIntro + contributors + contributorOutro + "\n\n";
   }
 
   
@@ -146,6 +186,7 @@ export class CreateComponent implements OnInit {
     (<FormArray>this.inputForm.get('features')).removeAt(i);
   }
 
+  // Setup - Steps
   addStep() {
     (<FormArray>this.inputForm.get('setup')).push(new FormGroup({
       description: new FormControl(""),
@@ -157,6 +198,24 @@ export class CreateComponent implements OnInit {
     (<FormArray>this.inputForm.get('setup')).removeAt(i);
   }
 
+  // Contributors
+  addContributors() {
+    (<FormArray>this.inputForm.get('contributor')).push(new FormGroup({
+      name: new FormControl(""),
+      connect1: new FormControl("Github"),
+      connect1Link: new FormControl(""),
+      connect2: new FormControl("Linkdin"),
+      connect2Link: new FormControl(""),
+      connect3: new FormControl("Other"),
+      connect3Link: new FormControl("")
+    }))
+  }
+
+  removeContributor(i) {
+    (<FormArray>this.inputForm.get('contributor')).removeAt(i);
+  }
+
+  // Copy to clipboard
   copy() {
     const pending = this.clipboard.beginCopy(this.outputForm.controls['output'].value);
     let remainingAttempts = 3;

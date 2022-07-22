@@ -36,7 +36,7 @@
       </div>
     </section>
 
-    <section class="section pb-0 section-components">
+    <section class="section pb-0 section-components" id="toTop">
       <div class="row">
 
         <!-- Left Spacing -->
@@ -131,6 +131,57 @@
               </div>
             </div>
 
+            <!-- Contributors -->
+            <div class="container mb-5">
+              <h3 class="h4 font-weight-bold mb-4">Contributors</h3>
+              <div class="form-group">
+                <div formArrayName="contributor">
+                  <section *ngFor="let feature of inputForm.get('contributor')['controls']; index as i" [formGroupName]="i">
+                    <div class="mb-4">
+                      <div class="input-group">
+                        <input formControlName="name" type="text" id="input-contributorName{{i}}"
+                          class="form-control black-color box-border" placeholder="Add Name">
+                        <button class="input-group-text black-color box-border" (click)="removeContributor(i)"><i class="fa fa-trash"></i></button>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <input formControlName="connect1" type="text" id="input-contributorConnect1{{i}}"
+                            class="form-control black-color box-border" placeholder="Add Platform Name">
+                        </div>
+                        <div class="col-md-9">
+                          <input formControlName="connect1Link" type="text" id="input-contributorConnect1Link{{i}}"
+                            class="form-control black-color box-border" placeholder="Add Platform Url">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <input formControlName="connect2" type="text" id="input-contributorConnect2{{i}}"
+                            class="form-control black-color box-border" placeholder="Add Platform Name">
+                        </div>
+                        <div class="col-md-9">
+                          <input formControlName="connect2Link" type="text" id="input-contributorConnect2Link{{i}}"
+                            class="form-control black-color box-border" placeholder="Add Platform Url">
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="col-md-3">
+                          <input formControlName="connect3" type="text" id="input-contributorConnect3{{i}}"
+                            class="form-control black-color box-border" placeholder="Add Platform Name">
+                        </div>
+                        <div class="col-md-9">
+                          <input formControlName="connect3Link" type="text" id="input-contributorConnect3Link{{i}}"
+                            class="form-control black-color box-border" placeholder="Add Platform Url">
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+                  <div style="margin-top: 20px; display: flex; justify-content: center;">
+                    <button class="btn btn-1 btn-outline-primary" (click)="addContributors()">Add Contributor</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Generate -->
             <div style="margin-top: 20px; display: flex; justify-content: center;">
               <button class="btn btn-1 btn-outline-primary" (click)="save()">Generate Markdown</button>
@@ -144,9 +195,9 @@
         <!-- Output Block -->
         <div class="col-lg-5">
           <form [formGroup]="outputForm">
-            <div class="container mb-5">
+            <div class="container">
               <h3 class="h4 font-weight-bold mb-4">Code</h3>
-              <div style="margin-top: 20px; display: flex; justify-content: center;">
+              <div style="margin-bottom: 20px; display: flex; justify-content: center;">
                 <button class="btn btn-1 btn-outline-primary" (click)="copy()">Copy</button>
               </div>
               <div class="form-group">
