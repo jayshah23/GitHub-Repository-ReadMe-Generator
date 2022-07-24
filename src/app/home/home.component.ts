@@ -26,7 +26,7 @@ export class HomeComponent implements OnInit {
     //         this.API().subscribe(data => {
     //             console.log("Data: ",data);
     //             this.github1 = true;
-                this.shared.setUsername(this.username);
+                this.shared.setUsername(this.username.trim());
     //         }, error => {
     //             console.log("Error: ",error);
     //             this.github1 = false;

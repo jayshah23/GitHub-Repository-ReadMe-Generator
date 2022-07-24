@@ -13,3 +13,15 @@
 .box-border {
     border: solid 2px black;
 }
+
+.not-allowed:disabled {
+    cursor: not-allowed;
+}
+
+.invisibledDiv {
+    display:none
+}
+
+.visibledDiv {
+    display: block;
+}

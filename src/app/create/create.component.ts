@@ -13,6 +13,7 @@ export class CreateComponent implements OnInit {
   username: string = "";
   inputForm: FormGroup;
   outputForm: FormGroup;
+  addonVisibility = false
 
   constructor(private shared: SharedService,
     private clipboard: Clipboard) { }
@@ -22,6 +23,12 @@ export class CreateComponent implements OnInit {
 
     this.inputForm = new FormGroup({
       title: new FormControl(""),
+      license: new FormControl(true),
+      forks: new FormControl(true),
+      stars: new FormControl(true),
+      issues: new FormControl(true),
+      pullRequest: new FormControl(true),
+      languageCount: new FormControl(true),
       description: new FormControl(""),
       demoText: new FormControl(""),
       demoHyperLink: new FormControl(""),
@@ -60,20 +67,41 @@ export class CreateComponent implements OnInit {
     demo = this.demo(),
     features = this.features(),
     setup = this.setup(),
-    contributor = this.contributor();
+    contributor = this.contributor(),
+    // addons = this.addons(),
+    el = document.getElementById("code");
+    el.style.height = "auto";
 
-    // console.log("Title: "+title, "dsc: "+description, "demo: "+demo, "ft: "+features, "steps: "+setup, "contributor: "+contributor);
-
-    // this.outputForm.get('output').setValue
     this.outputForm.controls['output'].setValue(title + description + demo + features + setup + contributor);
 
+    el.style.height = (5 + el.scrollHeight) + "px";
     document.getElementById("toTop").scrollIntoView({behavior: 'smooth'});
   }
 
-  // https://stackoverflow.com/questions/32049527/using-typescript-to-create-html-using-template
   title(): string {
-    var title = this.inputForm.get('title').value;
-    return title == undefined || title.trim() == "" ? "" : `<h1 align="center">${title.trim()}</h1>\n`
+    var title = this.getTitle;
+    return title == undefined || title.trim() == "" ? "" : `<h1 align="center">` + title.trim() + `</h1>\n` + this.addons();
+  }
+
+  addons(): string {
+    var addons = "";
+
+    if(this.inputForm.get('license').value) addons = addons + this.addonCode("blob/master/LICENSE", "license");
+    if(this.inputForm.get('forks').value) addons = addons + this.addonCode("fork", "forks");
+    if(this.inputForm.get('stars').value) addons = addons + this.addonCode("stargazers", "stars");
+    if(this.inputForm.get('issues').value) addons = addons + this.addonCode("issues", "issues");
+    if(this.inputForm.get('pullRequest').value) addons = addons + this.addonCode("pulls", "issues-pr");
+    if(this.inputForm.get('languageCount').value) addons = addons + this.addonCode("", "languages/count");
+    
+    if(addons == "") return "";
+
+    return `<p align="center">\n` + addons + `</p>\n\n`;
+  }
+
+  addonCode(addonHref: string, addonSrc: string): string {
+    return `  <a href="https://github.com/${this.username}/${this.getTitle.trim()}/${addonHref}" target="_blank">
+    <img src="https://img.shields.io/github/${addonSrc}/${this.username}/${this.getTitle.trim()}?style=flat-square" alt="github-profile-readme-generator ${addonSrc}" />
+  </a>\n`;
   }
 
   description(): string {
@@ -132,7 +160,7 @@ export class CreateComponent implements OnInit {
   setup() {
     var setup = "",
     setupIntro = "## 🛠️ Installation Steps\n",
-    setupOutro = "🌟 You are all set!";
+    setupOutro = "You are all set! ✨";
 
     (<FormArray>this.inputForm.get('setup')).controls.forEach((steps, index: number) => {
       // console.log(index, feature.value);
@@ -153,7 +181,7 @@ export class CreateComponent implements OnInit {
   contributor() {
     var contributors = "",
     contributorIntro = "## 🚧 Contributors\n",
-    contributorOutro = "Thank you so much for your help.";
+    contributorOutro = "\nThank you so much for your help.";
 
     (<FormArray>this.inputForm.get('contributor')).controls.forEach((contributor , index: number) => {
       if(contributor.value.name.trim() != "") {
@@ -186,6 +214,7 @@ export class CreateComponent implements OnInit {
     (<FormArray>this.inputForm.get('features')).removeAt(i);
   }
 
+
   // Setup - Steps
   addStep() {
     (<FormArray>this.inputForm.get('setup')).push(new FormGroup({
@@ -198,6 +227,7 @@ export class CreateComponent implements OnInit {
     (<FormArray>this.inputForm.get('setup')).removeAt(i);
   }
 
+  
   // Contributors
   addContributors() {
     (<FormArray>this.inputForm.get('contributor')).push(new FormGroup({
@@ -215,6 +245,7 @@ export class CreateComponent implements OnInit {
     (<FormArray>this.inputForm.get('contributor')).removeAt(i);
   }
 
+
   // Copy to clipboard
   copy() {
     const pending = this.clipboard.beginCopy(this.outputForm.controls['output'].value);
@@ -230,5 +261,15 @@ export class CreateComponent implements OnInit {
     };
     attempt();
   }
+
+
+  // title input change
+  titleChange(value: string) {
+    this.addonVisibility = value.trim() != "" ? true : false;
+  }
+
+
+  // getters
+  get getTitle() { return this.inputForm.get('title').value }
 
 }

@@ -50,8 +50,65 @@
             <div class="container mb-5">
               <h3 class="h4 font-weight-bold mb-4">Title of Repository</h3>
               <div class="form-group">
-                <input formControlName="title" type="text" id="input-title"
+                <input formControlName="title" type="text" id="input-title" (input)="titleChange($event.target.value)"
                   class="form-control black-color box-border" placeholder="Paste your Repository name">
+              </div>
+            </div>
+
+            <!-- Add-ons -->
+            <div class="container mb-5 " [ngClass]="{'invisibledDiv': addonVisibility == false, 'visibledDiv': addonVisibility == true}">
+              <h3 class="h4 font-weight-bold mb-4">Add-ons</h3>
+              <div class="row">
+                <div class="col-sm-3">
+                  <div class="form-group custom-control custom-checkbox">
+                    <input formControlName="license" class="custom-control-input" id="input-license" type="checkbox">
+                    <label class="custom-control-label" for="input-license">
+                      <span>License</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group custom-control custom-checkbox">
+                    <input formControlName="forks" class="custom-control-input" id="input-forks" type="checkbox">
+                    <label class="custom-control-label" for="input-forks">
+                      <span>Forks</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group custom-control custom-checkbox">
+                    <input formControlName="stars" class="custom-control-input" id="input-stars" type="checkbox">
+                    <label class="custom-control-label" for="input-stars">
+                      <span>Stars</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-3">
+                  <div class="form-group custom-control custom-checkbox">
+                    <input formControlName="issues" class="custom-control-input" id="input-issues" type="checkbox">
+                    <label class="custom-control-label" for="input-issues">
+                      <span>Issues</span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-6">
+                  <div class="form-group custom-control custom-checkbox">
+                    <input formControlName="pullRequest" class="custom-control-input" id="input-pullRequest" type="checkbox">
+                    <label class="custom-control-label" for="input-pullRequest">
+                      <span>Pull Request</span>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="form-group custom-control custom-checkbox">
+                    <input formControlName="languageCount" class="custom-control-input" id="input-languageCount" type="checkbox">
+                    <label class="custom-control-label" for="input-languageCount">
+                      <span>Language Count</span>
+                    </label>
+                  </div>
+                </div>
               </div>
             </div>
 
@@ -92,10 +149,10 @@
               <h3 class="h4 font-weight-bold mb-4">Features</h3>
               <div class="form-group">
                 <textarea formControlName="featuresDescription" id="input-features-description" rows="5"
-                  class="form-control black-color no-resize box-border mb-4" placeholder="Features description"></textarea>
+                  class="form-control black-color no-resize box-border mb-2" placeholder="Features description"></textarea>
                 <div formArrayName="features">
                   <section *ngFor="let feature of inputForm.get('features')['controls']; index as i">
-                    <div class="input-group mb-4">
+                    <div class="input-group mb-2">
                       <input formControlName="{{i}}" type="text" id="input-demoLink"
                         class="form-control black-color box-border" placeholder="Add feature">
                       <button class="input-group-text black-color box-border" (click)="removeFeature(i)"><i class="fa fa-trash"></i></button>
@@ -115,7 +172,7 @@
                 <div formArrayName="setup">
                   <section *ngFor="let feature of inputForm.get('setup')['controls']; index as i" [formGroupName]="i">
                     <div class="mb-4">
-                      <div class="input-group">
+                      <div class="input-group mb-2">
                         <input formControlName="description" type="text" id="input-setupDesc{{i}}"
                           class="form-control black-color box-border" placeholder="Add Description">
                         <button class="input-group-text black-color box-border" (click)="removeStep(i)"><i class="fa fa-trash"></i></button>
@@ -138,12 +195,12 @@
                 <div formArrayName="contributor">
                   <section *ngFor="let feature of inputForm.get('contributor')['controls']; index as i" [formGroupName]="i">
                     <div class="mb-4">
-                      <div class="input-group">
+                      <div class="input-group mb-2">
                         <input formControlName="name" type="text" id="input-contributorName{{i}}"
                           class="form-control black-color box-border" placeholder="Add Name">
                         <button class="input-group-text black-color box-border" (click)="removeContributor(i)"><i class="fa fa-trash"></i></button>
                       </div>
-                      <div class="row">
+                      <div class="row mb-2">
                         <div class="col-md-3">
                           <input formControlName="connect1" type="text" id="input-contributorConnect1{{i}}"
                             class="form-control black-color box-border" placeholder="Add Platform Name">
@@ -153,7 +210,7 @@
                             class="form-control black-color box-border" placeholder="Add Platform Url">
                         </div>
                       </div>
-                      <div class="row">
+                      <div class="row mb-2">
                         <div class="col-md-3">
                           <input formControlName="connect2" type="text" id="input-contributorConnect2{{i}}"
                             class="form-control black-color box-border" placeholder="Add Platform Name">
@@ -163,7 +220,7 @@
                             class="form-control black-color box-border" placeholder="Add Platform Url">
                         </div>
                       </div>
-                      <div class="row">
+                      <div class="row mb-2">
                         <div class="col-md-3">
                           <input formControlName="connect3" type="text" id="input-contributorConnect3{{i}}"
                             class="form-control black-color box-border" placeholder="Add Platform Name">
@@ -201,7 +258,7 @@
                 <button class="btn btn-1 btn-outline-primary" (click)="copy()">Copy</button>
               </div>
               <div class="form-group">
-                <textarea formControlName="output" rows="50"
+                <textarea formControlName="output" rows="15" id="code"
                   class="form-control black-color no-resize disabled-background box-border" disabled
                   placeholder="Description"></textarea>
               </div>
