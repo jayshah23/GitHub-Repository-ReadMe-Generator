@@ -53,60 +53,57 @@
                 <input formControlName="title" type="text" id="input-title" (input)="titleChange($event.target.value)"
                   class="form-control black-color box-border" placeholder="Paste your Repository name">
               </div>
-            </div>
-
-            <!-- Add-ons -->
-            <div class="container mb-5 " [ngClass]="{'invisibledDiv': addonVisibility == false, 'visibledDiv': addonVisibility == true}">
-              <h3 class="h4 font-weight-bold mb-4">Add-ons</h3>
-              <div class="row">
-                <div class="col-sm-3">
-                  <div class="form-group custom-control custom-checkbox">
-                    <input formControlName="license" class="custom-control-input" id="input-license" type="checkbox">
-                    <label class="custom-control-label" for="input-license">
-                      <span>License</span>
-                    </label>
+              <div [ngClass]="{'invisibledDiv': addonTitleVisibility == false, 'visibledDiv': addonTitleVisibility == true}">
+                <div class="row">
+                  <div class="col-sm-3">
+                    <div class="form-group custom-control custom-checkbox">
+                      <input formControlName="license" class="custom-control-input" id="input-license" type="checkbox">
+                      <label class="custom-control-label" for="input-license">
+                        <span>License</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group custom-control custom-checkbox">
+                      <input formControlName="forks" class="custom-control-input" id="input-forks" type="checkbox">
+                      <label class="custom-control-label" for="input-forks">
+                        <span>Forks</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group custom-control custom-checkbox">
+                      <input formControlName="stars" class="custom-control-input" id="input-stars" type="checkbox">
+                      <label class="custom-control-label" for="input-stars">
+                        <span>Stars</span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-sm-3">
+                    <div class="form-group custom-control custom-checkbox">
+                      <input formControlName="issues" class="custom-control-input" id="input-issues" type="checkbox">
+                      <label class="custom-control-label" for="input-issues">
+                        <span>Issues</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
-                <div class="col-sm-3">
-                  <div class="form-group custom-control custom-checkbox">
-                    <input formControlName="forks" class="custom-control-input" id="input-forks" type="checkbox">
-                    <label class="custom-control-label" for="input-forks">
-                      <span>Forks</span>
-                    </label>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group custom-control custom-checkbox">
+                      <input formControlName="pullRequest" class="custom-control-input" id="input-pullRequest" type="checkbox">
+                      <label class="custom-control-label" for="input-pullRequest">
+                        <span>Pull Request</span>
+                      </label>
+                    </div>
                   </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group custom-control custom-checkbox">
-                    <input formControlName="stars" class="custom-control-input" id="input-stars" type="checkbox">
-                    <label class="custom-control-label" for="input-stars">
-                      <span>Stars</span>
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-3">
-                  <div class="form-group custom-control custom-checkbox">
-                    <input formControlName="issues" class="custom-control-input" id="input-issues" type="checkbox">
-                    <label class="custom-control-label" for="input-issues">
-                      <span>Issues</span>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-sm-6">
-                  <div class="form-group custom-control custom-checkbox">
-                    <input formControlName="pullRequest" class="custom-control-input" id="input-pullRequest" type="checkbox">
-                    <label class="custom-control-label" for="input-pullRequest">
-                      <span>Pull Request</span>
-                    </label>
-                  </div>
-                </div>
-                <div class="col-sm-6">
-                  <div class="form-group custom-control custom-checkbox">
-                    <input formControlName="languageCount" class="custom-control-input" id="input-languageCount" type="checkbox">
-                    <label class="custom-control-label" for="input-languageCount">
-                      <span>Language Count</span>
-                    </label>
+                  <div class="col-sm-6">
+                    <div class="form-group custom-control custom-checkbox">
+                      <input formControlName="languageCount" class="custom-control-input" id="input-languageCount" type="checkbox">
+                      <label class="custom-control-label" for="input-languageCount">
+                        <span>Language Count</span>
+                      </label>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -139,8 +136,14 @@
                 </div>
               </div>
               <div class="form-group">
-                <input formControlName="demoLink" type="text" id="input-demoLink"
-                  class="form-control black-color no-resize box-border" placeholder="Link">
+                <input formControlName="demoLink" type="text" id="input-demoLink" (input)="demoLinkChange($event.target.value)"
+                  class="form-control black-color no-resize box-border" placeholder="Link starting with http:// or https://">
+              </div>
+              <div class="form-group custom-control custom-checkbox" [ngClass]="{'invisibledDiv': addonDemoVisibility == false, 'visibledDiv': addonDemoVisibility == true}">
+                <input formControlName="websiteStatus" class="custom-control-input" id="input-websiteStatus" type="checkbox">
+                <label class="custom-control-label" for="input-websiteStatus">
+                  <span>Website status</span>
+                </label>
               </div>
             </div>
 

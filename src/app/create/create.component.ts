@@ -13,7 +13,8 @@ export class CreateComponent implements OnInit {
   username: string = "";
   inputForm: FormGroup;
   outputForm: FormGroup;
-  addonVisibility = false
+  addonTitleVisibility = false;
+  addonDemoVisibility = false;
 
   constructor(private shared: SharedService,
     private clipboard: Clipboard) { }
@@ -33,6 +34,7 @@ export class CreateComponent implements OnInit {
       demoText: new FormControl(""),
       demoHyperLink: new FormControl(""),
       demoLink: new FormControl(""),
+      websiteStatus: new FormControl(true),
       featuresDescription: new FormControl(""),
       features: new FormArray([
         new FormControl("")
@@ -68,7 +70,6 @@ export class CreateComponent implements OnInit {
     features = this.features(),
     setup = this.setup(),
     contributor = this.contributor(),
-    // addons = this.addons(),
     el = document.getElementById("code");
     el.style.height = "auto";
 
@@ -100,7 +101,7 @@ export class CreateComponent implements OnInit {
 
   addonCode(addonHref: string, addonSrc: string): string {
     return `  <a href="https://github.com/${this.username}/${this.getTitle.trim()}/${addonHref}" target="_blank">
-    <img src="https://img.shields.io/github/${addonSrc}/${this.username}/${this.getTitle.trim()}?style=flat-square" alt="github-profile-readme-generator ${addonSrc}" />
+    <img src="https://img.shields.io/github/${addonSrc}/${this.username}/${this.getTitle.trim()}?style=flat-square" alt="${this.getTitle.trim()} ${addonSrc}" />
   </a>\n`;
   }
 
@@ -114,13 +115,19 @@ export class CreateComponent implements OnInit {
     demoHyperLink = this.inputForm.get('demoHyperLink').value,
     demoLink = this.inputForm.get('demoLink').value,
     demo = "",
-    demoIntro = "## 🚀 Demo\n";
+    demoIntro = "## 🚀 Demo\n",
+    demoAddon = "";
 
     if(demoLink == undefined || demoLink.trim() == "") demoLink = "", demoHyperLink = "";
     else {
       if(demoHyperLink == undefined || demoHyperLink.trim() == "") demoHyperLink = demoLink;
       else demoHyperLink = demoHyperLink.trim();
       demo = `[${demoHyperLink.trim()}]` + `(${demoLink.trim()})`;
+      
+      if(this.inputForm.get('websiteStatus').value)
+      demoAddon = `<a href="${demoLink}" target="_blank">
+  <img src="https://img.shields.io/website?logo=github&style=flat-square&url=${encodeURIComponent(demoLink)}" alt="${this.getTitle.trim()} website-status" />
+</a>\n\n`;
     }
 
     if(demoText == undefined || demoText.trim() == "") {
@@ -131,7 +138,7 @@ export class CreateComponent implements OnInit {
       demo = demoText + " " + demo;
     }
     
-    return demoIntro + demo + "\n\n";
+    return demoIntro + demoAddon + demo + "\n\n";
   }
 
   features() {
@@ -263,9 +270,13 @@ export class CreateComponent implements OnInit {
   }
 
 
-  // title input change
+  // input change
   titleChange(value: string) {
-    this.addonVisibility = value.trim() != "" ? true : false;
+    this.addonTitleVisibility = value.trim() != "" ? true : false;
+  }
+  
+  demoLinkChange(value: string) {
+    this.addonDemoVisibility = value.trim() != "" ? true : false;
   }
 
 
