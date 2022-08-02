@@ -1,0 +1,10 @@
+<h1 mat-dialog-title>Hi {{username}}, this is how your README.md looks like!!</h1>
+<div style="padding: 10px;">
+    <div mat-dialog-content [innerHtml]="code" class="markdown box-border">
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button class="btn btn-outline-danger" mat-dialog-close>Close</button>
+    <!-- <button class="btn btn-outline-warning" click="reload()">Reload</button> -->
+    <!-- <button mat-button class="btn btn-outline-success">Proceed to GitHub</button> -->
+</div>

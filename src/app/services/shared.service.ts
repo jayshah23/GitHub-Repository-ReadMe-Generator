@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import * as marked from 'marked';
 
 @Injectable({
   providedIn: 'root'
@@ -6,8 +7,15 @@ import { Injectable } from '@angular/core';
 export class SharedService {
   
   username: string = "";
+  md: any;
 
-  constructor() { }
+  constructor() {
+    this.md = marked;
+    this.md.setOptions({
+      gfm: true,
+      headerIds: true
+    })
+  }
 
   setUsername(username: string) {
     this.username = username;
@@ -17,5 +25,9 @@ export class SharedService {
   getUsername() {
     console.log("Get username: ", this.username);
     return this.username;
+  }
+
+  parseMarkdown(data) {
+    return this.md.parse(data);
   }
 }

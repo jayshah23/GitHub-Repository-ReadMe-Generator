@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from '@angular/forms';
 import { SharedService } from '../services/shared.service';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { MatDialog } from '@angular/material/dialog';
+import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
 
 @Component({
   selector: 'app-create',
@@ -17,7 +19,8 @@ export class CreateComponent implements OnInit {
   addonDemoVisibility = false;
 
   constructor(private shared: SharedService,
-    private clipboard: Clipboard) { }
+    private clipboard: Clipboard,
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.username = this.shared.getUsername();
@@ -267,6 +270,15 @@ export class CreateComponent implements OnInit {
       }
     };
     attempt();
+  }
+
+
+  // preview
+  preview() {
+    this.dialog.open(PreviewDialogComponent, {
+      disableClose: true,
+      data: this.outputForm.get('output').value
+    });
   }
 
 
