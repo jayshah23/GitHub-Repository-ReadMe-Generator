@@ -16,6 +16,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatDialogModule } from '@angular/material/dialog';
 import { PreviewDialogComponent } from './preview-dialog/preview-dialog.component';
+import { EditorComponent } from './editor/editor.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { PreviewDialogComponent } from './preview-dialog/preview-dialog.componen
     NavbarComponent,
     FooterComponent,
     CreateComponent,
-    PreviewDialogComponent
+    PreviewDialogComponent,
+    EditorComponent
   ],
   imports: [
     BrowserModule,

@@ -6,10 +6,12 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { CreateComponent } from './create/create.component';
 import { AuthGuard } from './services/auth.guard';
+import { EditorComponent } from './editor/editor.component';
 
 const routes: Routes =[
     { path: 'home',				component: HomeComponent },
     { path: 'create',			component: CreateComponent,		canActivate: [AuthGuard] },
+    { path: 'editor',				component: EditorComponent },
     { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 

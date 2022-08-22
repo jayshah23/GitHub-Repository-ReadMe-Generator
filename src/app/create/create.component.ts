@@ -4,6 +4,7 @@ import { SharedService } from '../services/shared.service';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { MatDialog } from '@angular/material/dialog';
 import { PreviewDialogComponent } from '../preview-dialog/preview-dialog.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-create',
@@ -18,12 +19,13 @@ export class CreateComponent implements OnInit {
   addonTitleVisibility = false;
   addonDemoVisibility = false;
 
-  constructor(private shared: SharedService,
+  constructor(private sharedService: SharedService,
     private clipboard: Clipboard,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private router: Router) { }
 
   ngOnInit() {
-    this.username = this.shared.getUsername();
+    this.username = this.sharedService.getUsername();
 
     this.inputForm = new FormGroup({
       title: new FormControl(""),
@@ -80,6 +82,7 @@ export class CreateComponent implements OnInit {
 
     el.style.height = (5 + el.scrollHeight) + "px";
     document.getElementById("toTop").scrollIntoView({behavior: 'smooth'});
+    this.sharedService.setCode(this.outputForm.get('output').value);
   }
 
   title(): string {
@@ -279,6 +282,12 @@ export class CreateComponent implements OnInit {
       disableClose: true,
       data: this.outputForm.get('output').value
     });
+  }
+
+
+  // edit
+  edit() {
+    this.router.navigateByUrl("/editor");
   }
 
 

@@ -8,6 +8,7 @@ export class SharedService {
   
   username: string = "";
   md: any;
+  code: string = "";
 
   constructor() {
     this.md = marked;
@@ -19,12 +20,22 @@ export class SharedService {
 
   setUsername(username: string) {
     this.username = username;
-    console.log("Set username: ", this.username);
+    // console.log("Set username: ", this.username);
   }
 
   getUsername() {
-    console.log("Get username: ", this.username);
+    // console.log("Get username: ", this.username);
     return this.username;
+  }
+
+  setCode(code: string) {
+    this.code = code;
+    // console.log("Set code: ", this.code);
+  }
+
+  getCode() {
+    // console.log("Get code: ", this.code);
+    return this.code;
   }
 
   parseMarkdown(data) {

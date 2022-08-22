@@ -1,0 +1,73 @@
+<main>
+    <div class="position-relative">
+        <!-- Hero for FREE version -->
+        <section class="section section-lg section-hero section-shaped">
+            <!-- Background circles -->
+            <div class="shape shape-style-1 shape-primary">
+                <span class="span-150"></span>
+                <span class="span-50"></span>
+                <span class="span-50"></span>
+                <span class="span-75"></span>
+                <span class="span-100"></span>
+                <span class="span-75"></span>
+                <span class="span-50"></span>
+                <span class="span-100"></span>
+                <span class="span-50"></span>
+                <span class="span-100"></span>
+            </div>
+
+            <div class="container shape-container d-flex align-items-center py-lg">
+                <div class="col px-0">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-lg-6 text-center">
+                            <h1 class="text-white">Welcome</h1>
+                            <p class="lead text-white">Just edit/add the code and preview it.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SVG separator -->
+            <div class="separator separator-bottom separator-skew zindex-100">
+                <svg x="0" y="0" viewBox="0 0 2560 100" preserveAspectRatio="none" version="1.1"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <polygon class="fill-white" points="2560 0 2560 100 0 100"></polygon>
+                </svg>
+            </div>
+        </section>
+
+        <section class="section pb-0 section-components" id="toTop">
+            <div class="row">
+
+                <!-- Left Spacing -->
+                <div class="col-lg-1"></div>
+
+                <!-- Input Block -->
+                <div class="col-lg-5">
+                    <form [formGroup]="editForm">
+                        <div class="container">
+                            <h3 class="h4 font-weight-bold mb-4">Editor</h3>
+                            <div class="form-group">
+                                <textarea rows="25" (keyup)="onInputChange($event.target.value)" formControlName="code"
+                                    class="form-control black-color no-resize box-border" placeholder="Code"></textarea>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Vertical Line -->
+                <div style="border-right: 1px solid #000"></div>
+
+                <!-- Output Block -->
+                <div class="col-lg-5">
+                    <div class="container">
+                        <h3 class="h4 font-weight-bold mb-4">Previewer</h3>
+                        <div class="form-group">
+                            <div [innerHtml]="output" class="markdown box-border"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
